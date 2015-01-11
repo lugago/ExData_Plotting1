@@ -8,15 +8,22 @@ pdata <- read.table("C:/Coursera/Exploratory_Data_Analysis/household_power_consu
                                              "Sub_metering_2","Sub_metering_3"), 
                     skip = 66637, nrows = 2880)
 
-#Check the first and the last rows from the pdata ti verify the dates
+#Check the first and the last rows from the pdata to verify the dates
+
 tail(pdata)
 head(pdata)
 
 #Convert the Date and Time variables to Date/Time classes using the 
 #strptime() and as.Date() functions.
-pdata$Date <- as.Date(pdata$Date, "%d/%m/%Y")
+
 class(pdata$Date)
-strptime(pdata$Time, "%H:%M:%S")
+pdata$DateTime <- strptime(paste(pdata$Date,pdata$Time),"%d/%m/%Y %H:%M:%S")
+pdata$Date <- as.Date(pdata$Date, "%d/%m/%Y")
+
+#Note that in this dataset missing values are coded as ?.
+
+pdata[(pdata$Global_reactive_power == "?"),]
+Sys.setlocale("LC_TIME", "english")
 
 
 #Note that in this dataset missing values are coded as ?.
